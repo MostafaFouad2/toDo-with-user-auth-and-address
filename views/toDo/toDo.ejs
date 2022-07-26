@@ -1,0 +1,43 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/cart.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+        <main>
+            <div class="centered">
+                <form action="/toDo" method="POST">
+                    <label for="title">title</label>
+                    <input type="text" name="title" id="title" required>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" class="btn">add</button>
+                </form>
+            </div>
+    
+            <% if (tasks.length > 0) { %>
+                <br>
+                <ul class="cart__item-list">
+                    <% tasks.forEach(t => { %>
+                        <li class="cart__item">
+                            <h1><%= t.title %></h1>
+                            <h2><%= !t.state ? 'Not Done Yet' : 'its Done'%></h2>
+                            <form action="/todo-delete" method="POST">
+                                <input type="hidden" value="<%= t._id %>" name="taskId">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button class="btn danger" type="submit">Delete</button>
+                            </form>
+                            <form action="/todo-edit" method="POST">
+                                <input type="hidden" value="<%= t._id %>" name="taskId">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button class="btn btn-info" type="submit">Edit</button>
+                            </form>
+                        </li>
+                    <% }) %>
+                </ul>
+                
+                
+            <% } else { %>
+                <h1>No To-Do yet!</h1>
+            <% } %>
+        </main>
+        <%- include('../includes/end.ejs') %>

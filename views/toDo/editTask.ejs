@@ -1,0 +1,31 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/auth.css">
+</head>
+
+<body>
+   <%- include('../includes/navigation.ejs') %>
+
+    <main>
+        <form class="login-form" action="/editTask" method="POST">
+            <div class="form-control">
+                <label for="title">title</label>
+                <input type="text" name="title" id="title" value="<%= task.title %>">
+            </div>
+            <div class="form-control">
+                
+                <% if (task.state) { %>
+                    <input type="checkbox" name="state" id="state" value=true checked>
+                    <label for="state">its Done</label>
+                    <% } else { %>
+                    <input type="checkbox" name="state" id="state" value=true>
+                    <label for="state">its Done</label>
+                    <% } %>
+                    
+            </div>
+            <input type="hidden" value="<%= task._id %>" name="taskId">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit">Edit</button>
+        </form>
+    </main>
+<%- include('../includes/end.ejs') %>
